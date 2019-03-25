@@ -11,7 +11,11 @@ import (
 
 func main() {
 	router := mux.NewRouter()
+
 	router.Use(app.JwtAuthemtication) //attach JWT auth middleware
+	router.HandleFunc("/api/user/new", controllers.CreateAccount).Methods("POST")
+	router.HandleFunc("/api/user/login", controllers.Authenticate).Methods("POST")
+	router.HandleFunc("/api/me/contacts", controllers.GetContactsFor).Methods("GET")
 
 	port := os.Getenv("PORT") // Get port from .env file, we did not specify any port so this should return an empty string when tested locally
 	if port == "" {
